@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume - Marry Smith</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .vertical-text {
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+        }
+        
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .orange-gradient {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+        }
+        
+        .dark-gradient {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 50%, #2d2d2d 100%);
+        }
+        
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .neon-glow:hover {
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.8);
+            transform: translateY(-2px);
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .pulse-ring {
+            position: absolute;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+        
+        .skill-bar {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 4px;
+            border-radius: 2px;
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .morphing-shape {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation: morph 8s ease-in-out infinite;
+        }
+        
+        @keyframes morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+        
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .text-reveal {
+            overflow: hidden;
+        }
+        
+        .text-reveal .line {
+            transform: translateY(100%);
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .section-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print { display: none !important; }
+            .particle { display: none !important; }
+        }
+        
+        .interactive-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: rgba(102, 126, 234, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease;
+        }
+        
+        .magnetic-hover {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 font-sans min-h-screen relative">
+    <!-- Interactive Cursor -->
+    <div class="interactive-cursor no-print" id="cursor"></div>
+    
+    <!-- Floating Particles -->
+    <div id="particles-container" class="fixed inset-0 pointer-events-none no-print"></div>
+    
+    <div class="flex max-w-7xl mx-auto shadow-2xl relative" style="min-height: 100vh;">
+        
+        <!-- Left Section - Resume -->
+        <div class="w-1/2 orange-gradient relative overflow-hidden">
+            <!-- Animated Background Elements -->
+            <div class="absolute inset-0 opacity-20">
+                <div class="morphing-shape w-64 h-64 bg-white absolute -top-32 -right-32 floating"></div>
+                <div class="morphing-shape w-48 h-48 bg-gradient-to-br from-purple-400 to-pink-400 absolute bottom-10 -left-24 floating" style="animation-delay: -3s;"></div>
+            </div>
+            
+            <!-- Vertical Name with Glow -->
+            <div class="absolute left-6 top-1/2 transform -translate-y-1/2 z-10">
+                <div class="vertical-text text-6xl font-black tracking-wider text-white glow-text" id="vertical-name">
+                    DEVANSH 
+                </div>
+            </div>
+            
+            <!-- Main Content Area -->
+            <div class="ml-24 p-8 pt-12 relative z-10">
+                <!-- Profile Image with Pulse Animation -->
+                <div class="mb-8 section-reveal">
+                    <div class="relative inline-block">
+                        <div class="pulse-ring w-32 h-40"></div>
+                        <img src="photu.jpg" 
+                             alt="Profile" class="w-32 h-40 object-cover shadow-2xl hover-lift neon-glow relative z-10" id="profile-img">
+                    </div>
+                    <div class="flex items-center mb-4 mt-4">
+                        <div class="text-reveal">
+                            <h1 class="text-4xl font-black mr-4 line text-black">HELLO!</h1>
+                        </div>
+                        <div class="w-8 h-8 border-2 border-black rounded-full flex items-center justify-center glassmorphism magnetic-hover" id="hello-arrow">
+                            <span class="text-lg text-black">→</span>
+                        </div>
+                    </div>
+                    <div class="text-reveal">
+                        <p class="text-sm text-black leading-relaxed mb-6 line opacity-90">
+                            A dedicated and innovative individual with a passion for creating engaging web experiences. Skilled in designing user-friendly interfaces and committed to delivering high-quality digital solutions. Enthusiastic about continuous learning and leveraging technology to solve real-world problems.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Contact with Hover Effects -->
+                <div class="bg-black text-white p-4 mb-6 text-xs glassmorphism hover-lift section-reveal" id="contact-bar">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold">CONTACT</span>
+                        <div class="flex space-x-4">
+                            <span class="hover:text-blue-300 transition-colors cursor-pointer magnetic-hover">-6162xxx162</span>
+                            <span class="text-blue-300">●</span>
+                            <span class="hover:text-blue-300 transition-colors cursor-pointer magnetic-hover"> devanshsingh2199@gmail.com</span>
+                            <span class="text-blue-300">●</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Two Column Layout with Staggered Animation -->
+                <div class="grid grid-cols-2 gap-6 text-sm">
+                    <!-- Left Column -->
+                    <div class="space-y-6">
+                        <!-- Profile Section -->
+                        <div class="section-reveal hover-lift">
+                            <div class="text-reveal mb-3">
+                                <h2 class="text-lg font-black line text-black">PROFILE</h2>
+                            </div>
+                            <div class="text-reveal">
+                                <p class="text-black leading-relaxed text-xs line opacity-90">
+                                    Experienced Full Stack Developer skilled in React.js, Node.js, and Shopify. Led innovative eCommerce and AI projects at Deloitte USI and MadvIT Solutions, delivering scalable, user-centric solutions.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Work Experience with Animated Bars -->
+                        <div class="section-reveal hover-lift">
+                            <div class="text-reveal mb-3">
+                                <h2 class="text-lg font-black line text-black">WORK<br>EXPERIENCE</h2>
+                            </div>
+                            <div class="space-y-3 text-xs">
+                                <div class="work-item magnetic-hover">
+                                    <div class="font-bold text-black">Consultant – Software Development Deloitte USI, India (present-2025)
+                                    </div>
+                                    <div class="text-black opacity-80">Led innovative eCommerce and AI projects, delivering scalable, user-centric solutions using Shopify and OpenAI.Senior Software Engineer.</div>
+                                    <div class="skill-bar mt-1" data-width="90"></div>
+                                </div>
+                                <div class="work-item magnetic-hover">
+                                    <div class="font-bold text-black">MadvIT Solutions, Noida
+June 2024 – Feb 2025
+</div>
+                                    <div class="text-black opacity-80">Enhanced system architecture and led PHP/SQL projects, improving efficiency and reliability with MERN stack expertise.Associate Software Developer
+</div>
+                                    <div class="skill-bar mt-1" data-width="85"></div>
+                                </div>
+                                <div class="work-item magnetic-hover">
+                                    <div class="font-bold text-black">ValueCoders Software And Services Pvt Ltd, Gurgaon
+January 2021 – June 2024</div>
+                                    <div class="text-black opacity-80">Developed full-stack web applications with Node.js, React.js, and MongoDB, boosting performance by 20%.</div>
+                                    <div class="skill-bar mt-1" data-width="95"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column -->
+                    <div class="space-y-6">
+                        <!-- Education with Hover Effects -->
+                        <div class="section-reveal hover-lift">
+                            <div class="text-reveal mb-3">
+                                <h2 class="text-lg font-black line text-black">EDUCATION</h2>
+                            </div>
+                            <div class="space-y-3 text-xs">
+                                <div class="magnetic-hover">
+                                    <div class="font-bold text-black">2017-2021</div>
+                                    <div class="text-black opacity-80">B.Tech - Computer Science and Information technology</div>
+                                    <div class="text-black opacity-80">XYZ university</div>
+                                </div>
+                                <div class="magnetic-hover">
+                                    <div class="font-bold text-black">2021-2023</div>
+                                    <div class="text-black opacity-80">M.Tech - Computer Science and Engineering</div>
+                                    <div class="text-black opacity-80">XYZ university</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Skills with Animated Bars -->
+                        <div class="section-reveal hover-lift">
+                            <div class="text-reveal mb-3">
+                                <h2 class="text-lg font-black line text-black">SKILLS</h2>
+                            </div>
+                            <div class="space-y-3 text-xs">
+                                <div class="skill-item">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-black font-medium">Front-end</span>
+                                        <span class="text-black opacity-80">Expert</span>
+                                    </div>
+                                    <div class="skill-bar" data-width="95"></div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-black font-medium">Back-end</span>
+                                        <span class="text-black opacity-80">Advanced</span>
+                                    </div>
+                                    <div class="skill-bar" data-width="88"></div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-black font-medium">Mobile Development</span>
+                                        <span class="text-black opacity-80">Professional</span>
+                                    </div>
+                                    <div class="skill-bar" data-width="82"></div>
+
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Languages with Star Animation -->
+                        <div class="section-reveal hover-lift">
+                            <div class="text-reveal mb-3">
+                                <h2 class="text-lg font-black line text-black">LANGUAGES</h2>
+                            </div>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex justify-between items-center magnetic-hover">
+                                    <span class="font-medium text-black">Javascript</span>
+                                    <div class="star-rating text-yellow-600">★★★★★</div>
+                                </div>
+                                <div class="flex justify-between items-center magnetic-hover">
+                                    <span class="font-medium text-black">Typescript</span>
+                                    <div class="star-rating text-yellow-600">★★★★☆</div>
+                                </div>
+                                <div class="flex justify-between items-center magnetic-hover">
+                                    <span class="font-medium text-black">PHP</span>
+                                    <div class="star-rating text-yellow-600">★★★★★</div>
+                                </div>
+                                <div class="flex justify-between items-center magnetic-hover">
+                                    <span class="font-medium text-black">SQL</span>
+                                    <div class="star-rating text-yellow-600">★★★★★</div>
+                                </div>
+                                <div class="flex justify-between items-center magnetic-hover">
+                                    <span class="font-medium text-black">JQuery</span>
+                                    <div class="star-rating text-yellow-600">★★★★☆</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Section - Cover Letter -->
+        <div class="w-1/2 dark-gradient text-white relative overflow-hidden">
+            <!-- Animated Background Elements -->
+            <div class="absolute inset-0 opacity-10">
+                <div class="morphing-shape w-72 h-72 bg-gradient-to-br from-blue-400 to-purple-600 absolute -top-36 -left-36 floating"></div>
+                <div class="morphing-shape w-56 h-56 bg-white absolute bottom-0 -right-28 floating" style="animation-delay: -4s;"></div>
+            </div>
+            
+            <!-- Large MARRY at top with Glow -->
+            <div class="absolute top-8 left-1/2 transform -translate-x-1/2 z-10">
+                <h1 class="text-6xl font-black tracking-wider text-white glow-text section-reveal" id="marry-title">DEVANSH</h1>
+            </div>
+            
+            <!-- Profile Image with Interactive Elements -->
+            <div class="absolute top-32 left-1/2 transform -translate-x-1/2 z-10">
+    <div class="relative section-reveal" id="cover-profile">
+        <div class="pulse-ring w-32 h-32"></div>
+        <img src="photu.jpg" 
+             alt="Profile" 
+             class="w-32 h-32 object-cover shadow-2xl hover-lift neon-glow rounded-full">
+        <div class="absolute -right-4 top-1/2 transform -translate-y-1/2">
+            <div class="bg-gradient-to-r from-blue-400 to-purple-600 text-white rounded-full w-12 h-12 flex items-center justify-center glassmorphism floating magnetic-hover">
+                <div class="w-6 h-6 bg-white text-black rounded-full flex items-center justify-center">
+                    <span class="text-xs">★</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            
+            <!-- Job Position Badge with Glow -->
+            <div class="absolute top-64 left-8 z-10">
+                <div class="bg-gradient-to-r from-blue-400 to-purple-600 text-white px-6 py-3 rounded-full text-sm font-bold glassmorphism hover-lift section-reveal magnetic-hover" id="job-badge">
+                    JOB POSITION
+                </div>
+            </div>
+            
+            <!-- Animated Arrow -->
+            <div class="absolute top-72 right-8 text-4xl z-10 section-reveal floating magnetic-hover" id="main-arrow">→</div>
+            
+            <!-- Main Content with Reveal Animation -->
+            <div class="pt-80 px-8 relative z-10">
+                <div class="text-reveal mb-6">
+                    <h2 class="text-2xl font-black tracking-wide line glow-text">TO WHOM IT MAY CONCERN</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-6 text-sm leading-relaxed">
+                    <div class="section-reveal">
+                        <p class="mb-4 opacity-90 hover:opacity-100 transition-opacity glow-text">I am Devansh Singh, a dedicated Full Stack Developer with over four years of experience.Part 2</p>
+                        <p class="mb-4 opacity-90 hover:opacity-100 transition-opacity glow-text"> Professional Background
+Having worked with Deloitte USI, MadvIT Solutions, and ValueCoders, I specialize in technologies like React.js, Node.js, and Shopify.Part</p>
+                    </div>
+                    <div class="section-reveal">
+                        <p class="mb-4 opacity-90 hover:opacity-100 transition-opacity glow-text">Expertise
+I deliver scalable and user-centric applications, leveraging my skills in innovative eCommerce and AI-driven solutions</p>
+                        <p class="mb-4 opacity-90 hover:opacity-100 transition-opacity glow-text">Intent
+I am eager to contribute my skills to your organization.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Large SMITH at bottom with Glow -->
+            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
+    <h1 class="text-6xl font-black tracking-wider text-white glow-text section-reveal" id="smith-title">SINGH</h1>
+</div>
+
+    <script>
+        // GSAP Animation Timeline
+        gsap.registerPlugin();
+        
+        // Initial setup
+        gsap.set(".section-reveal", { opacity: 0, y: 50 });
+        gsap.set(".line", { y: "100%" });
+        gsap.set(".skill-bar", { scaleX: 0 });
+        
+        // Main timeline
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        
+        // Initial load animations
+        tl.to(".section-reveal", { 
+            opacity: 1, 
+            y: 0, 
+            duration: 1, 
+            stagger: 0.2 
+        })
+        .to(".line", { 
+            y: "0%", 
+            duration: 0.8, 
+            stagger: 0.1 
+        }, "-=0.5")
+        .to(".skill-bar", { 
+            scaleX: 1, 
+            duration: 1.2, 
+            stagger: 0.1,
+            delay: 0.3
+        });
+        
+        // Skill bar animations based on data-width
+        document.querySelectorAll('.skill-bar').forEach(bar => {
+            const width = bar.getAttribute('data-width') / 100;
+            gsap.to(bar, {
+                scaleX: width,
+                duration: 1.5,
+                delay: 1,
+                ease: "power2.out"
+            });
+        });
+        
+        // Interactive cursor
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+        
+        // Magnetic hover effects
+        document.querySelectorAll('.magnetic-hover').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                gsap.to(el, { scale: 1.1, duration: 0.3, ease: "power2.out" });
+                gsap.to(cursor, { scale: 2, duration: 0.3 });
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                gsap.to(el, { scale: 1, duration: 0.3, ease: "power2.out" });
+                gsap.to(cursor, { scale: 1, duration: 0.3 });
+            });
+            
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                gsap.to(el, { 
+                    x: x * 0.1, 
+                    y: y * 0.1, 
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: "power2.out" });
+            });
+        });
+        
+        // Floating particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = window.innerHeight + 'px';
+            document.getElementById('particles-container').appendChild(particle);
+            
+            gsap.to(particle, {
+                y: -window.innerHeight - 100,
+                x: (Math.random() - 0.5) * 200,
+                duration: Math.random() * 3 + 2,
+                ease: "none",
+                onComplete: () => particle.remove()
+            });
+        }
+        
+        setInterval(createParticle, 300);
+        
+        // Hover effects for sections
+        document.querySelectorAll('.hover-lift').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                gsap.to(el, {
+                    y: -8,
+                    scale: 1.02,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                gsap.to(el, {
+                    y: 0,
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+        
+        // Star rating animation
+        document.querySelectorAll('.star-rating').forEach(rating => {
+            rating.addEventListener('mouseenter', () => {
+                gsap.to(rating, {
+                    scale: 1.2,
+                    rotation: 360,
+                    duration: 0.5,
+                    ease: "back.out(1.7)"
+                });
+            });
+            
+            rating.addEventListener('mouseleave', () => {
+                gsap.to(rating, {
+                    scale: 1,
+                    rotation: 0,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+        
+        // Scroll-triggered animations
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = scrolled * 0.5;
+            
+            gsap.to('.floating', {
+                y: parallax,
+                duration: 0.3
+            });
+        });
+        
+        // Print detection
+        window.addEventListener('beforeprint', () => {
+            document.querySelectorAll('.particle').forEach(p => p.remove());
+        });
+    </script>
+</body>
+</html>
